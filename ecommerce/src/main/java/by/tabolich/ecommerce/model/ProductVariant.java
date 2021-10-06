@@ -1,8 +1,6 @@
 package by.tabolich.ecommerce.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -25,6 +23,7 @@ public class ProductVariant implements Serializable {
     private String size;
 
     @ManyToMany
+    @JsonIgnoreProperties("product_variants")
     @JoinTable(
             name="orders_product_variants_residence",
             joinColumns=@JoinColumn(name="product_variant_id", referencedColumnName="id"),
@@ -32,11 +31,12 @@ public class ProductVariant implements Serializable {
     private List<Order> orders;
 
     @ManyToMany
+    @JsonIgnoreProperties("product_variants")
     @JoinTable(
-            name="cart_product_variants_residence",
+            name="carts_product_variants_residence",
             joinColumns=@JoinColumn(name="product_variant_id", referencedColumnName="id"),
             inverseJoinColumns=@JoinColumn(name="cart_id", referencedColumnName="id"))
-    private List<Order> carts;
+    private List<Cart> carts;
 
     public Long getId() {
         return id;
@@ -64,5 +64,17 @@ public class ProductVariant implements Serializable {
 
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public List<Cart> getCarts() {
+        return carts;
+    }
+
+    public void setCarts(List<Cart> carts) {
+        this.carts = carts;
     }
 }

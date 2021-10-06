@@ -27,6 +27,9 @@ public class Product implements Serializable {
     @Column(name = "price")
     private float price;
 
+    @Column(name = "description")
+    private String description;
+
     @Column(name = "image", length = 255)
     private String image;
 
@@ -79,5 +82,13 @@ public class Product implements Serializable {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

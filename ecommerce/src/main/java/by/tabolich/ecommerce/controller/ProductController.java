@@ -3,22 +3,20 @@ package by.tabolich.ecommerce.controller;
 
 import by.tabolich.ecommerce.dao.CartDao;
 import by.tabolich.ecommerce.dao.CartItemDao;
-import by.tabolich.ecommerce.model.*;
-import by.tabolich.ecommerce.repository.CartItemRepository;
+import by.tabolich.ecommerce.model.Cart;
+import by.tabolich.ecommerce.model.Product;
+import by.tabolich.ecommerce.model.ProductVariant;
+import by.tabolich.ecommerce.model.User;
 import by.tabolich.ecommerce.repository.CartRepository;
 import by.tabolich.ecommerce.repository.ProductRepository;
 import by.tabolich.ecommerce.repository.UserRepository;
-import by.tabolich.ecommerce.services.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/")
@@ -38,9 +36,6 @@ public class ProductController {
     @Autowired
     CartDao cartDao;
 
-//    CartItemDao repo = context
-//            .getBean(CartItemDao.class);
-
     @GetMapping("product")
     public List<Product> getAllProducts() {
         return this.productRepository.findAll();
@@ -59,7 +54,7 @@ public class ProductController {
         return ResponseEntity.ok().body(productVariants);
     }
 
-    @PostMapping(path = "product/{id}/", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "product/{id}/", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Cart> addProductToCart(@PathVariable(value = "id") long productId, @RequestParam String size) {
         System.out.println(size);
         User user = userRepository.getById(Long.parseLong("1"));

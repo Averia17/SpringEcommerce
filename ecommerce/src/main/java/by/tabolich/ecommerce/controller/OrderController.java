@@ -29,4 +29,10 @@ public class OrderController {
         Order order = orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order not found"));
         return ResponseEntity.ok().body(order);
     };
+    @DeleteMapping("order/{id}")
+    public ResponseEntity<Order> deleteOrderById(@PathVariable(value = "id") long orderId) {
+        Order order = orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order not found"));
+        orderRepository.delete(order);
+        return ResponseEntity.ok().body(order);
+    };
 }

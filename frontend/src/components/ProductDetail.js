@@ -21,17 +21,16 @@ function ProductDetail({ match }) {
 
     let handleSubmit = (e) => {
         e.preventDefault();
-
-        fetch(`http://127.0.0.1:8080/api/product/${id}/`, {
-            method: 'POST',
+        console.log(e.target.size.value);
+        let size = e.target.size.value;
+        fetch(`http://127.0.0.1:8080/api/product/${id}/?size=${size}`, {
+            method: 'GET',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({size: this.state.size})
+            }
         });
 
-        this.setState({size: ''});
     }
 
     return (

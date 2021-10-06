@@ -5,6 +5,8 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import MainPage from "./components/MainPage";
 import NavBar from "./components/Navbar";
 import ProductDetail from "./components/ProductDetail";
+import Cart from "./components/Cart";
+import Profile from "./components/Profile";
 
 if (window.location.origin === "http://localhost:3000") {
   axios.defaults.baseURL = "http://127.0.0.1:8080/api/product/";
@@ -17,6 +19,8 @@ class App extends Component {
           <NavBar/>
           <Switch>
             <Route path="/products/" exact component={MainPage}/>
+            <Route path="/cart/" exact component={Cart}/>
+            <Route path="/profile/" exact component={Profile}/>
             <Route path="/products/:id/" exact component={ProductDetail}/>
             <Route component={MainPage}/>
           </Switch>

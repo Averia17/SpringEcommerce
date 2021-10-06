@@ -2,6 +2,7 @@ package by.tabolich.ecommerce.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -21,6 +22,7 @@ public class Cart implements Serializable {
     private User user;
 
     @ManyToMany
+    @JsonIgnoreProperties({"orders", "carts"})
     @JoinTable(
             name="carts_product_variants_residence",
             joinColumns=@JoinColumn(name="cart_id", referencedColumnName="id"),

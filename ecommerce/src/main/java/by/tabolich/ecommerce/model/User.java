@@ -1,6 +1,6 @@
 package by.tabolich.ecommerce.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
@@ -25,6 +25,7 @@ public class User implements Serializable {
     private boolean is_support;
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnoreProperties("user")
     private List<Order> orders;
 
     @OneToOne
