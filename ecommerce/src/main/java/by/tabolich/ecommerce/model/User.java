@@ -15,14 +15,19 @@ public class User implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "username", length = 255)
+    @Column(name = "username", length = 255, unique = true)
     private String username;
+
+    @Column(name = "password", length = 255)
+    private String password;
 
     @Column(name = "email", length = 255)
     private String email;
 
-    @Column(name = "is_support")
-    private boolean is_support;
+    @ManyToOne
+    @JoinColumn(name="role_id")
+    @JsonIgnoreProperties("users")
+    private RoleEntity role;
 
     @OneToMany(mappedBy = "user")
     @JsonIgnoreProperties("user")
@@ -31,12 +36,12 @@ public class User implements Serializable {
     @OneToOne
     private Cart cart;
 
-    public boolean isIs_support() {
-        return is_support;
+    public RoleEntity getRole() {
+        return role;
     }
 
-    public void setIs_support(boolean is_support) {
-        this.is_support = is_support;
+    public void setRole(RoleEntity role) {
+        this.role = role;
     }
 
     public List<Order> getOrders() {
@@ -61,6 +66,14 @@ public class User implements Serializable {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getEmail() {

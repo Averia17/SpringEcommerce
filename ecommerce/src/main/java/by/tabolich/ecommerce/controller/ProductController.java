@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -43,6 +45,7 @@ public class ProductController {
 
     @GetMapping("product/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable(value = "id") long productId) {
+
         Product product = productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
         return ResponseEntity.ok().body(product);
     }
@@ -56,9 +59,10 @@ public class ProductController {
 
     @GetMapping(path = "product/{id}/", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Cart> addProductToCart(@PathVariable(value = "id") long productId, @RequestParam String size) {
-        System.out.println(size);
-        User user = userRepository.getById(Long.parseLong("1"));
-        System.out.println(user.getUsername());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userRepository.getUserByUsername(authentication.getName());
+        // TODO FAILED TO ADD TO CART
+        System.out.println(user.getCart().getId());
         Cart cart = user.getCart();
         Product product = productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
         ProductVariant productVariant = product.getProduct_variants()

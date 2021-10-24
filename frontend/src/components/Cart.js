@@ -2,6 +2,7 @@ import React, { useEffect, useState} from 'react';
 import axios from 'axios';
 import '../App.css';
 import { Link } from 'react-router-dom'
+import authHeader from "../services/auth-header";
 
 function Cart() {
     const [cart, setCart] = useState( [])
@@ -11,6 +12,7 @@ function Cart() {
             method: "GET",
             headers: {
                 'Content-type': 'application/json',
+                'Authorization': authHeader()
             },
             url: 'http://127.0.0.1:8080/api/cart/',
         }).then(response => {
@@ -25,9 +27,10 @@ function Cart() {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': authHeader()
             }
-        });
+        }).then(window.location.reload())
 
     }
     let handleAddToOrder = (e) => {
@@ -36,7 +39,8 @@ function Cart() {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': authHeader()
             }
         });
     }

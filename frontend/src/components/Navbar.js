@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import '../App.css';
 import { Link } from 'react-router-dom'
+import authHeader from "../services/auth-header";
+
+const currentUser = authHeader();
 
 class NavBar extends Component {
+
     render() {
         return (
             <div className="navbar">
@@ -26,11 +30,16 @@ class NavBar extends Component {
                         </li>
                     </ul>
                     <div className="link-to-cart">
-                        <Link className="link" to={{ pathname: `/cart/`}}>Карта</Link>
+                        <Link className="link" to={{ pathname: `/cart/`}}>Корзина</Link>
                     </div>
-                    <div className="link-to-profile">
-                        <Link className="link" to={{ pathname: `/profile/`}}>Профиль</Link>
-                    </div>
+                    {   currentUser ?
+                        <div className="link-to-profile">
+                            <Link className="link" to={{pathname: `/profile/`}}>Профиль</Link>
+                        </div> :
+                        <div className="link-to-profile">
+                            <Link className="link" to={{pathname: `/login/`}}>Логин</Link>
+                        </div>
+                    }
                     <div className="search-box">
 
                             <input className="search-txt" type="search" name="" placeholder="Нажмите для поиска"/>

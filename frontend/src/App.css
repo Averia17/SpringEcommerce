@@ -267,9 +267,23 @@ ul {
   margin: 1%;
 }
 .profile-username {
+
   font-size: 2em;
-  margin: 2%;
   text-align: center;
+}
+.profile-title {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  margin: 2% 2% 2% 46%;
+}
+.button-logout {
+  text-align: center;
+  padding: 1%;
+  font-size: 1.2em;
+  border-radius: 3px;
+  background: #4169E1;
+
 }
 .orders-wrapper {
 

@@ -2,6 +2,8 @@ import React, { useEffect, useState} from 'react';
 import axios from 'axios';
 import '../App.css';
 import { Link } from 'react-router-dom'
+import AuthService from "../services/auth.service";
+import authHeader from '../services/auth-header';
 
 function Profile() {
     const [profile, setProfile] = useState( [])
@@ -11,12 +13,17 @@ function Profile() {
             method: "GET",
             headers: {
                 'Content-type': 'application/json',
+                'Authorization': authHeader()
             },
             url: 'http://127.0.0.1:8080/api/user/',
         }).then(response => {
             setProfile(response.data)
         })
     }, [])
+    let logout = () => {
+        AuthService.logout();
+        window.location.replace('http://127.0.0.1:3000');
+    }
 
     let handleDelete = (id, e) => {
         console.log(id);
@@ -25,15 +32,19 @@ function Profile() {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': authHeader()
             }
-        });
+        }).then(window.location.reload());
 
     }
 
     return(
        <div>
-           <div className="profile-username">{profile.username}</div>
+           <div className="profile-title">
+               <div className="profile-username">{profile.username}</div>
+               <button className="button-logout" type="button" onClick={(e) => logout()}> Выйти</button>
+           </div>
            <div className="orders-wrapper">
                <div className="order-title">
                    Мои заказы

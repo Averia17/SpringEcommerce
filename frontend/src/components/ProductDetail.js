@@ -2,6 +2,8 @@ import React, { useEffect, useState, Component} from 'react';
 import axios from 'axios';
 import '../App.css';
 import { Link } from 'react-router-dom'
+import authHeader from "../services/auth-header";
+import AuthService from "../services/auth.service";
 
 
 function ProductDetail({ match }) {
@@ -9,11 +11,15 @@ function ProductDetail({ match }) {
     const[product, setProduct] = useState( []);
     const id = match.params.id;
 
+    const currentUser = authHeader();
 
     useEffect( () => {
         axios({
             method: "GET",
             url: `http://127.0.0.1:8080/api/product/${id}/`,
+            headers: {
+                'Content-type': 'application/json',
+            },
         }).then(response => {
             setProduct(response.data)
         })
@@ -27,9 +33,10 @@ function ProductDetail({ match }) {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': authHeader()
             }
-        });
+        }).then(window.location.reload());
 
     }
 
@@ -74,9 +81,14 @@ function ProductDetail({ match }) {
                                 </div>
                             </div>
                         </div>
-                        <div className="product-detail-submit">
-                            <button type="submit">Добавить в корзину</button>
-                        </div>
+                        { currentUser ?
+                            <div className="product-detail-submit">
+                                <button type="submit">Добавить в корзину</button>
+                            </div> :
+                            <div>
+
+                            </div>
+                        }
                     </form>
                 </div>
             </div>

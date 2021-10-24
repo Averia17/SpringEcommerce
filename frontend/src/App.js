@@ -7,6 +7,8 @@ import NavBar from "./components/Navbar";
 import ProductDetail from "./components/ProductDetail";
 import Cart from "./components/Cart";
 import Profile from "./components/Profile";
+import Login from "./components/Login";
+import Register from "./components/Register";
 
 if (window.location.origin === "http://localhost:3000") {
   axios.defaults.baseURL = "http://127.0.0.1:8080/api/product/";
@@ -19,6 +21,8 @@ class App extends Component {
           <NavBar/>
           <Switch>
             <Route path="/products/" exact component={MainPage}/>
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/register" component={Register} />
             <Route path="/cart/" exact component={Cart}/>
             <Route path="/profile/" exact component={Profile}/>
             <Route path="/products/:id/" exact component={ProductDetail}/>

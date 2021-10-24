@@ -10,11 +10,15 @@ import by.tabolich.ecommerce.model.ProductVariant;
 import by.tabolich.ecommerce.model.User;
 import by.tabolich.ecommerce.repository.CartRepository;
 import by.tabolich.ecommerce.repository.OrderRepository;
+import by.tabolich.ecommerce.repository.UserRepository;
+import by.tabolich.ecommerce.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,7 +33,13 @@ public class CartController {
     OrderRepository orderRepository;
 
     @Autowired
+    UserRepository userRepository;
+
+    @Autowired
     UserDao userDao;
+
+    @Autowired
+    UserService userService;
 
     @Autowired
     OrderDao orderDao;
@@ -39,13 +49,15 @@ public class CartController {
 
     @GetMapping(path = "cart")
     public ResponseEntity<Cart> showCart(){
-        User user = userDao.findById(Long.parseLong("1")).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userRepository.getUserByUsername(authentication.getName());
         return ResponseEntity.ok(user.getCart());
     }
 
     @PostMapping(path = "cart", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Order> addCartDataToOrder() {
-        User user = userDao.findById(Long.parseLong("1")).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userRepository.getUserByUsername(authentication.getName());
         Cart cart = user.getCart();
         List<ProductVariant> productVariants = cart.getProductVariants();
         Order order = new Order(user);
@@ -59,7 +71,8 @@ public class CartController {
     };
     @DeleteMapping(path = "cart/{id}/", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProductVariant> deleteCartItemFromOrder(@PathVariable(value = "id") long productVariantId) {
-        User user = userDao.findById(Long.parseLong("1")).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userRepository.getUserByUsername(authentication.getName());
         Cart cart = user.getCart();
         // TODO: remove to service this bad code
         List<ProductVariant> productVariants = cart.getProductVariants();

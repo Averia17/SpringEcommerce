@@ -2,10 +2,14 @@ import React, { useEffect, useState} from 'react';
 import axios from 'axios';
 import '../App.css';
 import { Link } from 'react-router-dom'
+import AuthService from "../services/auth.service";
+
 
 function MainPage() {
     const [products, setProducts] = useState( [])
-
+    const currentUser = AuthService.getCurrentUser();
+    const token = JSON.parse(sessionStorage.getItem('data'))
+    console.log(currentUser);
     useEffect( () => {
         axios({
             method: "GET",
