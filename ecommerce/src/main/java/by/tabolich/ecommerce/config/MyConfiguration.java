@@ -15,4 +15,5 @@ public class MyConfiguration implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedMethods("*");
     }
+
 }
