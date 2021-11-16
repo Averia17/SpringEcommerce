@@ -18,23 +18,16 @@ public class OrderController {
 
     @GetMapping("order")
     public List<Order> getAllOrders() {
-        // TODO : MAKE FOR CURRENT USER
-//        for (Menu menu: this.menuRepository.findAll()) {
-//            System.out.println(menu.getTitle());
-//
-//        }
         return this.orderRepository.findAll();
     };
 
     @GetMapping("order/{id}")
     public ResponseEntity<Order> getOrderById(@PathVariable(value = "id") long orderId) {
-        // TODO : MAKE FOR CURRENT USER
         Order order = orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order not found"));
         return ResponseEntity.ok().body(order);
     };
     @DeleteMapping("order/{id}")
     public ResponseEntity<Order> deleteOrderById(@PathVariable(value = "id") long orderId) {
-        // TODO : MAKE FOR CURRENT USER
         Order order = orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order not found"));
         orderRepository.delete(order);
         return ResponseEntity.ok().body(order);

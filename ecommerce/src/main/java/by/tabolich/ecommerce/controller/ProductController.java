@@ -43,6 +43,12 @@ public class ProductController {
         return this.productRepository.findAll();
     };
 
+    @GetMapping("products/")
+    public ResponseEntity<List<Product>> getProductsByGender(@RequestParam String gender) {
+        System.out.println(gender);
+        return ResponseEntity.ok().body(productRepository.findProductsByGender(gender));
+    };
+
     @GetMapping("product/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable(value = "id") long productId) {
 

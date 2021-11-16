@@ -1,5 +1,6 @@
 package by.tabolich.ecommerce.services;
 
+import by.tabolich.ecommerce.aspect.SecurityAnnotation;
 import by.tabolich.ecommerce.model.Cart;
 import by.tabolich.ecommerce.model.RoleEntity;
 import by.tabolich.ecommerce.model.User;
@@ -26,6 +27,7 @@ public class UserService {
     @Autowired
     private CartRepository cartRepository;
 
+    @SecurityAnnotation
     public User saveUser(User user) {
         if(userRepository.getUserByUsername(user.getUsername()) != null)
             throw new EntityExistsException("User with this username already exists");

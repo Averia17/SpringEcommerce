@@ -30,6 +30,9 @@ public class Product implements Serializable {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "gender")
+    private String gender;
+
     @Column(name = "image", length = 255)
     private String image;
 
@@ -40,8 +43,9 @@ public class Product implements Serializable {
             inverseJoinColumns=@JoinColumn(name="menu_id", referencedColumnName="id"))
     private List<Menu> menus;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     @JsonIgnoreProperties("product")
+
     private List<ProductVariant> product_variants;
 
     public List<ProductVariant> getProduct_variants() {
@@ -90,5 +94,13 @@ public class Product implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 }
