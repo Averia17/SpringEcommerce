@@ -103,13 +103,18 @@ export default class Register extends Component {
                     });
                 },
                 error => {
-                    const resMessage =
-                        (error.response &&
-                            error.response.data &&
-                            error.response.data.message) ||
-                        error.message ||
-                        error.toString();
-
+                    let resMessage;
+                    if (error.response.status === 400){
+                        resMessage = "Пользователь с таким именем уже существует";
+                    }
+                    else {
+                        resMessage =
+                            (error.response &&
+                                error.response.data &&
+                                error.response.data.message) ||
+                            error.message ||
+                            error.toString();
+                    }
                     this.setState({
                         successful: false,
                         message: resMessage

@@ -15,7 +15,6 @@ class AuthService {
             .then(response => {
                 if (response.data.token) {
                     localStorage.setItem("user", JSON.stringify(response.data));
-                    console.log(localStorage.getItem("user"));
                 }
 
                 return response.data;
@@ -35,14 +34,7 @@ class AuthService {
     }
 
     getCurrentUser() {
-        return axios
-            .get('http://127.0.0.1:8080/api/user/', {headers: {'Authorization': authHeader()}} )
-            .then(response => {
-                if (response.data.token) {
-                   return response.data
-                }
-
-            });
+        return localStorage.getItem("user");
     }
 }
 

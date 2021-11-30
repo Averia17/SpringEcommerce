@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import AuthService from "../services/auth.service";
 
 
-function MainPage() {
+function ManProducts() {
     const [products, setProducts] = useState( [])
     const token = JSON.parse(sessionStorage.getItem('data'))
     useEffect( () => {
@@ -15,7 +15,7 @@ function MainPage() {
             headers: {
                 'Content-type': 'application/json',
             },
-            url: 'http://127.0.0.1:8080/api/product/',
+            url: 'http://127.0.0.1:8080/api/products/?gender=man',
         }).then(response => {
             setProducts(response.data)
         })
@@ -54,4 +54,4 @@ function MainPage() {
     )
 }
 
-export default MainPage;
+export default ManProducts;
