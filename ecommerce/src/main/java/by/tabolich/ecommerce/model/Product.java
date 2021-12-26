@@ -36,16 +36,8 @@ public class Product implements Serializable {
     @Column(name = "image", length = 255)
     private String image;
 
-    @ManyToMany
-    @JoinTable(
-            name="menus_products_residence",
-            joinColumns=@JoinColumn(name="product_id", referencedColumnName="id"),
-            inverseJoinColumns=@JoinColumn(name="menu_id", referencedColumnName="id"))
-    private List<Menu> menus;
-
-    @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     @JsonIgnoreProperties("product")
-
     private List<ProductVariant> product_variants;
 
     public List<ProductVariant> getProduct_variants() {

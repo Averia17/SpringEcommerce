@@ -1,4 +1,5 @@
 import axios from "axios";
+import authHeader from "./auth-header";
 
 const API_URL = "http://localhost:8080/api/admin/";
 
@@ -11,6 +12,12 @@ class AdminService {
                 description,
                 price,
                 image
+            }, {
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': authHeader()
+
+                }
             })
     }
     createProductVariant(size, id) {
@@ -18,6 +25,12 @@ class AdminService {
         return axios
             .post(API_URL + `product/${id}/`, {
                 size,
+            }, {
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': authHeader()
+
+                }
             })
     }
 }

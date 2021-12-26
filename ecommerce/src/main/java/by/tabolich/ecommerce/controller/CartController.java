@@ -1,16 +1,10 @@
 package by.tabolich.ecommerce.controller;
 
 
-import by.tabolich.ecommerce.dao.OrderDao;
-import by.tabolich.ecommerce.dao.ProductVariantDao;
-import by.tabolich.ecommerce.dao.UserDao;
-import by.tabolich.ecommerce.model.Cart;
-import by.tabolich.ecommerce.model.Order;
-import by.tabolich.ecommerce.model.ProductVariant;
-import by.tabolich.ecommerce.model.User;
-import by.tabolich.ecommerce.repository.CartRepository;
-import by.tabolich.ecommerce.repository.OrderRepository;
-import by.tabolich.ecommerce.repository.UserRepository;
+import by.tabolich.ecommerce.model.*;
+import by.tabolich.ecommerce.repository.*;
+import by.tabolich.ecommerce.services.CartService;
+import by.tabolich.ecommerce.services.OrderService;
 import by.tabolich.ecommerce.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
@@ -30,59 +24,32 @@ public class CartController {
     CartRepository cartRepository;
 
     @Autowired
-    OrderRepository orderRepository;
-
-    @Autowired
-    UserRepository userRepository;
-
-    @Autowired
-    UserDao userDao;
+    CartService cartService;
 
     @Autowired
     UserService userService;
 
-    @Autowired
-    OrderDao orderDao;
-
-    @Autowired
-    ProductVariantDao productVariantDao;
-
     @GetMapping(path = "cart")
-    public ResponseEntity<Cart> showCart(){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = userRepository.getUserByUsername(authentication.getName());
-        return ResponseEntity.ok(user.getCart());
+    public ResponseEntity<Cart> showCart() {
+        try {
+            User user = userService.getAuthorizationUser();
+            return ResponseEntity.ok(user.getCart());
+        } catch (NullPointerException exception) {
+            return ResponseEntity.status(400).body(null);
+        }
     }
 
     @PostMapping(path = "cart", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Order> addCartDataToOrder() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = userRepository.getUserByUsername(authentication.getName());
-        Cart cart = user.getCart();
-        List<ProductVariant> productVariants = cart.getProductVariants();
-        Order order = new Order(user);
-        order = orderRepository.save(order);
-        order.getProductVariants().addAll(productVariants);
-        order = orderRepository.save(order);
-
-        System.out.println(order.getId());
-
+        User user = userService.getAuthorizationUser();
+        Order order = cartService.addDataToOrder(user);
         return new ResponseEntity<>(order, HttpStatus.OK);
-    };
+    }
+
     @DeleteMapping(path = "cart/{id}/", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProductVariant> deleteCartItemFromOrder(@PathVariable(value = "id") long productVariantId) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = userRepository.getUserByUsername(authentication.getName());
-        Cart cart = user.getCart();
-        // TODO: remove to service this bad code
-        List<ProductVariant> productVariants = cart.getProductVariants();
-        ProductVariant productVariant = productVariantDao.findById(productVariantId).orElseThrow(() -> new ResourceNotFoundException("Product variant not found"));
-        System.out.println(productVariant.getId());
-        productVariants.remove(productVariant);
-        cart.setProductVariants(productVariants);
-        cartRepository.save(cart);
-        //
-
+        User user = userService.getAuthorizationUser();
+        ProductVariant productVariant = cartService.deleteCartItem(user, productVariantId);
         return new ResponseEntity<>(productVariant, HttpStatus.OK);
-    };
+    }
 }

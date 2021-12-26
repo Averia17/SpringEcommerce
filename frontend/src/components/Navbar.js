@@ -1,6 +1,6 @@
 import React, {Component, useEffect, useState} from 'react';
 import '../App.css';
-import { Link } from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import auth from "../services/auth.service";
 import axios from "axios";
 import authHeader from "../services/auth-header";
@@ -22,17 +22,17 @@ function NavBar() {
                     {/*    </Link>*/}
                     {/*</li>*/}
                     <li className="navbar-link-wrapper">
-                        <Link className="link" to={{ pathname: `/products/`}}>Все товары</Link>
+                        <Link className="link" to={{pathname: `/products/`}}>Все товары</Link>
                     </li>
                     <li className="navbar-link-wrapper">
-                        <Link className="link" to={{ pathname: `/products/man/`}}>Мужское</Link>
+                        <Link className="link" to={{pathname: `/products/man/`}}>Мужское</Link>
                     </li>
                     <li className="navbar-link-wrapper">
-                        <Link className="link" to={{ pathname: `/products/woman/`}}>Женское</Link>
+                        <Link className="link" to={{pathname: `/products/woman/`}}>Женское</Link>
                     </li>
-                    { user?.role === "ROLE_ADMIN" ?
+                    {user?.role === "ROLE_ADMIN" ?
                         <li className="navbar-link-wrapper">
-                            <Link className="link" to={{ pathname: `/admin/`}}>Админ панель</Link>
+                            <Link className="link" to={{pathname: `/admin/`}}>Админ панель</Link>
                         </li> :
                         <div>
                         </div>
@@ -40,9 +40,9 @@ function NavBar() {
                     }
                 </ul>
                 <div className="link-to-cart">
-                    <Link className ="link" to={{ pathname: `/cart/`}}>Корзина</Link>
+                    <Link className="link" to={{pathname: `/cart/`}}>Корзина</Link>
                 </div>
-                {   user ?
+                {user ?
                     <div className="link-to-profile">
                         <Link className="link" to={{pathname: `/profile/`}}>Профиль</Link>
                     </div> :
@@ -51,12 +51,13 @@ function NavBar() {
                     </div>
                 }
                 <div className="search-box">
-
-                        <input className="search-txt" type="search" name="" placeholder="Нажмите для поиска"/>
+                    <form action="/products/">
+                        <input className="search-txt" type="search" name="search" placeholder="Нажмите для поиска"/>
                         {/*<a className="search-btn" href="#"></a>*/}
+                    </form>
                 </div>
             </div>
-                {/*<li className="search-box"></li>*/}
+            {/*<li className="search-box"></li>*/}
         </div>
     )
 }

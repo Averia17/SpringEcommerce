@@ -4,6 +4,7 @@ import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";
 import AuthService from "../services/auth.service";
+import {withRouter} from "react-router-dom";
 
 const required = value => {
     if (!value) {
@@ -45,7 +46,7 @@ const vpassword = value => {
     }
 };
 
-export default class Register extends Component {
+class Register extends Component {
     constructor(props) {
         super(props);
         this.handleRegister = this.handleRegister.bind(this);
@@ -101,6 +102,10 @@ export default class Register extends Component {
                         message: response.data.message,
                         successful: true
                     });
+                    this.props.history.push({pathname: '/login',
+                        state:{ username: this.state.username,
+                            password:this.state.password}
+                    })
                 },
                 error => {
                     let resMessage;
@@ -128,11 +133,6 @@ export default class Register extends Component {
         return (
             <div className="col-md-12">
                 <div className="card card-container">
-                    <img
-                        src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-                        alt="profile-img"
-                        className="profile-img-card"
-                    />
 
                     <Form
                         onSubmit={this.handleRegister}
@@ -210,3 +210,4 @@ export default class Register extends Component {
         );
     }
 }
+export default withRouter(Register);

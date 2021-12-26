@@ -7,7 +7,7 @@ import authHeader from '../services/auth-header';
 
 function Profile() {
     const [profile, setProfile] = useState( [])
-
+    console.log(profile)
     useEffect( () => {
         axios({
             method: "GET",
@@ -45,6 +45,8 @@ function Profile() {
                <div className="profile-username">{profile.username}</div>
                <button className="button-logout" type="button" onClick={(e) => logout()}> Выйти</button>
            </div>
+           <div className="profile-title profile-username">{profile?.email}</div>
+
            <div className="orders-wrapper">
                <div className="order-title">
                    Мои заказы
@@ -55,6 +57,8 @@ function Profile() {
                            <div className="order-item" key={order.id}>
                                    <div className="order-header">
                                        <div className="order-titles">{order.id}</div>
+                                       <div className="order-titles">{order?.status?.title}</div>
+
                                        <div>
                                            <div className="cart-product-item-delete">
                                                <button type="button" onClick={(e) => handleDelete(order.id, e)}> Удалить</button>

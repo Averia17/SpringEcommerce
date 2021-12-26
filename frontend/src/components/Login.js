@@ -23,8 +23,8 @@ export default class Login extends Component {
         this.onChangePassword = this.onChangePassword.bind(this);
 
         this.state = {
-            username: "",
-            password: "",
+            username: this.props.location?.state?.username,
+            password: this.props.location?.state?.password,
             loading: false,
             message: ""
         };

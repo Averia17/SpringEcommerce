@@ -30,8 +30,14 @@ public class Order implements Serializable {
     @JoinColumn(name="user_id")
     private User user;
 
-    public Order(User user) {
+    @ManyToOne
+    @JsonIgnoreProperties("orders")
+    @JoinColumn(name="status_id")
+    private Status status;
+
+    public Order(User user, Status status) {
         this.user = user;
+        this.status = status;
     }
 
 
@@ -62,4 +68,13 @@ public class Order implements Serializable {
     public void setProductVariants(List<ProductVariant> productVariants) {
         this.productVariants = productVariants;
     }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
 }

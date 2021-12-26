@@ -5,17 +5,22 @@ import { Link } from 'react-router-dom'
 import AuthService from "../services/auth.service";
 
 
-function MainPage() {
+function MainPage(props) {
     const [products, setProducts] = useState( [])
     const token = JSON.parse(sessionStorage.getItem('data'))
     useEffect( () => {
+        let url ='http://127.0.0.1:8080/api/product/'
+        const search = props?.location?.search
+        if (search) {
+            url = `http://127.0.0.1:8080/api/filter/products/${search}`
+        }
         axios({
             method: "GET",
             mode: 'no-cors',
             headers: {
                 'Content-type': 'application/json',
             },
-            url: 'http://127.0.0.1:8080/api/product/',
+            url: url,
         }).then(response => {
             setProducts(response.data)
         })

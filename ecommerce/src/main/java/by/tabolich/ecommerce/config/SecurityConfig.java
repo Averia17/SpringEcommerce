@@ -26,7 +26,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .csrf().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             //.authorizeRequests()
-                //TODO authentication for cart order
             .and()
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }

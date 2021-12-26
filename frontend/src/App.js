@@ -51,12 +51,12 @@ class App extends Component {
         <Router>
           <NavBar/>
           <Switch>
-            <Route path="/products/" exact component={MainPage}/>
+            <Route path="/products/" exact component={(props) => <MainPage {...props}/>}/>
             <Route path="/products/man/" exact component={ManProducts}/>
             <Route path="/products/woman/" exact component={WomanProducts}/>
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Register} />
-            <Route path="/cart/" exact component={Cart}/>
+            <Route path="/cart/" exact component={(props) => <Cart {...props}/> }/>
             <Route path="/profile/" exact  component={Profile}/>
             <Route path="/admin/" exact component={privateRoute(Admin)}/>
             <Route path="/products/:id/" exact component={ProductDetail}/>

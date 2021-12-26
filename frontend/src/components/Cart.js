@@ -1,12 +1,11 @@
 import React, { useEffect, useState} from 'react';
 import axios from 'axios';
 import '../App.css';
-import { Link } from 'react-router-dom'
+import {Link, withRouter} from 'react-router-dom'
 import authHeader from "../services/auth-header";
 
-function Cart() {
+function Cart(props) {
     const [cart, setCart] = useState( [])
-
     useEffect( () => {
         axios({
             method: "GET",
@@ -17,7 +16,7 @@ function Cart() {
             url: 'http://127.0.0.1:8080/api/cart/',
         }).then(response => {
             setCart(response.data)
-        })
+        }).catch(err => props.history.push("/login"))
     }, [])
 
     let handleDelete = (id, e) => {
@@ -87,4 +86,4 @@ function Cart() {
     );
 }
 
-export default Cart;
+export default withRouter(Cart);

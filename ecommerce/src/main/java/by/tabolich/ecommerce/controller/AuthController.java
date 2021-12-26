@@ -35,6 +35,7 @@ public class AuthController {
         User u = new User();
         u.setPassword(request.get("password"));
         u.setUsername(request.get("username"));
+        u.setEmail(request.get("email"));
         try { userService.saveUser(u); }
         catch (Exception ex)
         { return new ResponseEntity<>(u, HttpStatus.BAD_REQUEST); }
